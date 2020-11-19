@@ -145,32 +145,34 @@ function depthChart(team, letter) {
     var jsonString = JSON.stringify(xmlToJson(xml));
     jsonParseDepth = JSON.parse(jsonString)
     var position = null;
-    for (var x = 0; x <= jsonParseDepth.FantasyBasketballNerd.Team.Position.length - 1; x++) {
-      if (jsonParseDepth.FantasyBasketballNerd.Team.Position[x]["@attributes"].position === letter) {
-        position = x;
+    if (jsonParseDepth.FantasyBasketballNerd.Team.Position !== undefined) {
+      for (var x = 0; x <= jsonParseDepth.FantasyBasketballNerd.Team.Position.length - 1; x++) {
+        if (jsonParseDepth.FantasyBasketballNerd.Team.Position[x]["@attributes"].position === letter) {
+          position = x;
+        }
       }
-    }
-    var $topPlayerFormBody = document.querySelector('.topPlayerForm-body');
-    for (var i = 0; i <= jsonParseDepth.FantasyBasketballNerd.Team.Position.length - 1; i++) {
-      if (position !== null) {
-        var $tr = document.createElement('tr');
-        var $rank = document.createElement('td');
-        var $player = document.createElement('td');
-        $rank.textContent = jsonParseDepth.FantasyBasketballNerd.Team.Position[position].Player[i].rank['#text'];
-        $player.textContent = jsonParseDepth.FantasyBasketballNerd.Team.Position[position].Player[i].name['#text'];
-        $player.classList.add('tableRankDataPlayer');
-        $tr.appendChild($rank);
-        $tr.appendChild($player);
-        $topPlayerFormBody.appendChild($tr);
+      var $topPlayerFormBody = document.querySelector('.topPlayerForm-body');
+      for (var i = 0; i <= jsonParseDepth.FantasyBasketballNerd.Team.Position.length - 1; i++) {
+        if (position !== null) {
+          var $tr = document.createElement('tr');
+          var $rank = document.createElement('td');
+          var $player = document.createElement('td');
+          $rank.textContent = jsonParseDepth.FantasyBasketballNerd.Team.Position[position].Player[i].rank['#text'];
+          $player.textContent = jsonParseDepth.FantasyBasketballNerd.Team.Position[position].Player[i].name['#text'];
+          $player.classList.add('tableRankDataPlayer');
+          $tr.appendChild($rank);
+          $tr.appendChild($player);
+          $topPlayerFormBody.appendChild($tr);
+        }
       }
-    }
-    for (var i = 0; i <= $topPlayerFormBody.childNodes.length - 1; i++) {
-      $topPlayerFormBody.childNodes[i].childNodes[1].addEventListener('click', function (e) {
-        ballDontLie(e.target.textContent);
-        dataView[2].classList.add('hidden');
-        dataView[1].classList.remove('hidden');
-        $header.classList.remove('hidden');
-      })
+      for (var i = 0; i <= $topPlayerFormBody.childNodes.length - 1; i++) {
+        $topPlayerFormBody.childNodes[i].childNodes[1].addEventListener('click', function (e) {
+          ballDontLie(e.target.textContent);
+          dataView[2].classList.add('hidden');
+          dataView[1].classList.remove('hidden');
+          $header.classList.remove('hidden');
+        })
+      }
     }
   });
   xhr.addEventListener('error', function () {
@@ -356,6 +358,7 @@ $homepageForm.addEventListener('submit', function(e) {
 });
 
 //for dropdown menu team
+var $topPlayerFormBody = document.querySelector('.topPlayerForm-body');
 var flip = true;
 var $option = document.querySelector('.topPlayerForm-team');
 var team = null;
@@ -363,17 +366,23 @@ $option.addEventListener('click', function(e) {
   flip = !flip;
   if(flip === true) {
     team = e.target.value;
+    if (positionSwitch === true && playerPosition !== null && team !== 'Teams') {
+      $topPlayerFormBody.innerHTML = '';
+      depthChart(team, playerPosition);
+    }
   }
+
 });
 
 //for dropdown menu position
 var positionSwitch = true;
+var playerPosition = null;
 var $optionPosition = document.querySelector('.topPlayerForm-position');
 $optionPosition.addEventListener('click', function(e) {
-  var $topPlayerFormBody = document.querySelector('.topPlayerForm-body');
   $topPlayerFormBody.innerHTML = '';
   positionSwitch = !positionSwitch;
-  if (positionSwitch === true) {
+  if (positionSwitch === true && e.target.value !== "Position" && team !== 'Teams') {
+    playerPosition = e.target.value;
     depthChart(team, e.target.value);
   }
 })
@@ -395,7 +404,10 @@ addButton.addEventListener('click', addPlayer);
 function draftList() {
   $tableDraftListBody.innerHTML = '';
   for(var i = 0; i<=data.entries.length-1; i++) {
+    console.log(i);
     var $trAdd = document.createElement('tr');
+    $trAdd.classList.add('trAdd');
+    var $trAddArray = document.querySelectorAll('.trAdd');
     var $tdAddName = document.createElement('td');
     $tdAddName.textContent = data.entries[i][0];
     $trAdd.appendChild($tdAddName);
@@ -405,8 +417,21 @@ function draftList() {
     $trAdd.appendChild($tdAddPosition);
 
     var removeButton = document.createElement('button')
+    removeButton.classList.add('removeArray');
+    var removeButtonArray = document.querySelectorAll('.removeArray')
     removeButton.textContent = 'Remove';
     $trAdd.appendChild(removeButton);
+
+    removeButton.addEventListener('click', function(e) {
+      e.target.parentElement.remove();
+      for(var i = 0; data.entries.length-1; i++) {
+        if (data.entries[i][0] === e.target.previousSibling.previousSibling.textContent ) {
+          console.log('match', i);
+          data.entries.splice(i,1);
+        }
+      }
+    })
+
 
     $tableDraftListBody.appendChild($trAdd);
   }
