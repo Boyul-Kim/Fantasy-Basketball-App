@@ -2,7 +2,7 @@
 
 An app that allows user to create a mock fantasy draft list for the upcoming NBA season. Data for this app are courtesy of https://www.balldontlie.io/ and https://www.fantasybasketballnerd.com/
 
-# Technologies used
+# Technologies Used
 * Javascript
 * CSS3
 * HTML5
@@ -23,3 +23,4 @@ Try the application live at https://boyul-kim.github.io/Fantasy-Basketball-App/
 
 # Preview
 ![Homepage Preview](Homepage.gif)
+![Draft](Draft List.gif)
