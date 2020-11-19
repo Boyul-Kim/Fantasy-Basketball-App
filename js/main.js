@@ -404,7 +404,6 @@ addButton.addEventListener('click', addPlayer);
 function draftList() {
   $tableDraftListBody.innerHTML = '';
   for(var i = 0; i<=data.entries.length-1; i++) {
-    console.log(i);
     var $trAdd = document.createElement('tr');
     $trAdd.classList.add('trAdd');
     var $trAddArray = document.querySelectorAll('.trAdd');
@@ -424,9 +423,8 @@ function draftList() {
 
     removeButton.addEventListener('click', function(e) {
       e.target.parentElement.remove();
-      for(var i = 0; data.entries.length-1; i++) {
-        if (data.entries[i][0] === e.target.previousSibling.previousSibling.textContent ) {
-          console.log('match', i);
+      for(var i = 0; i<=data.entries.length-1; i++) {
+        if (data.entries[i][0] === e.target.previousSibling.previousSibling.textContent) {
           data.entries.splice(i,1);
         }
       }
