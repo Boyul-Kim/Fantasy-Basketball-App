@@ -3,6 +3,10 @@
   width: 100%;
 }
 
+.overflow {
+  overflow: auto;
+}
+
 .homepage-title {
   text-align: center;
 }
