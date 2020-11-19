@@ -14,8 +14,6 @@ var $depthButton = document.querySelector('.homepage-form-search-button');
 var $draftButton = document.querySelector('.homepage-form-search-list');
 var $rankButton = document.querySelector('.homepage-form-search-rank');
 var $rankIcon = document.querySelector('.fa-sort-numeric-down');
-
-//from data
 var $tableHistorical = document.querySelector('.table-historical');
 var $tableHistoricalBody = document.querySelector('.table-historical-body');
 var $playerName = document.querySelector('.playerName');
@@ -27,6 +25,7 @@ var $draftProjection = document.querySelector('.projection');
 var $tableRankBody = document.querySelector('.table-rank-body');
 var $topPlayerFormTeam = document.querySelector('.topPlayerForm-team');
 
+//used for storing player profile into localStorage
 var previousDataJson = localStorage.getItem('playerData');
 if (previousDataJson !== null) {
   data = JSON.parse(previousDataJson);
@@ -38,7 +37,7 @@ function profileStorage(event) {
 }
 window.addEventListener('beforeunload', profileStorage);
 
-//used for fantasybasektballnerd api
+//used for fantasybasektballnerd api - pulls projected stats for the upcoming season
 var xml = null;
 var jsonParse = null; //holds data from fantasybballnerd
 function ballProjections() {
@@ -115,14 +114,13 @@ function ballProjectionsFindPlayer(player) { //will look through draft projectio
   }
 }
 
+//will populate the Draft List page with the projected top 200 players for the upcoming season
 function ballProjectionsRankList() {
   for (var i = 0; i <= 199; i++) {
     var $tr = document.createElement('tr');
     var $rank = document.createElement('td');
     var $player = document.createElement('td');
-
     $player.classList.add('tableRankDataPlayer');
-
     $rank.textContent = jsonParse.FantasyBasketballNerd.Player.indexOf(jsonParse.FantasyBasketballNerd.Player[i]) + 1;
     $tr.appendChild($rank);
     $player.textContent = jsonParse.FantasyBasketballNerd.Player[i].name["#text"];
@@ -132,6 +130,8 @@ function ballProjectionsRankList() {
 }
 
 var jsonParseDepth = null;
+//letter is the position lettering. ex: PG = pointguard
+//This function will populate the Depth Chart page
 function depthChart(team, letter) {
   var xhr = new XMLHttpRequest();
   xhr.open('GET', 'https://api.codetabs.com/v1/proxy?quest=https://www.fantasybasketballnerd.com/service/depth/' + team);
@@ -163,7 +163,6 @@ function depthChart(team, letter) {
         $tr.appendChild($player);
         $topPlayerFormBody.appendChild($tr);
       }
-
     }
     for (var i = 0; i <= $topPlayerFormBody.childNodes.length - 1; i++) {
       $topPlayerFormBody.childNodes[i].childNodes[1].addEventListener('click', function (e) {
@@ -173,7 +172,6 @@ function depthChart(team, letter) {
         $header.classList.remove('hidden');
       })
     }
-
   });
   xhr.addEventListener('error', function () {
     failed();
@@ -181,6 +179,8 @@ function depthChart(team, letter) {
   xhr.send();
 }
 
+//function is used to pull information for the player profile
+//it will also pull the past 5 seasons for the player
 function ballDontLie(player) {
   var xhr = new XMLHttpRequest();
   xhr.open('GET', 'https://www.balldontlie.io/api/v1/players?search=' + player);
@@ -234,7 +234,6 @@ function ballDontLieSeasonAvg(season, id) {
     }
     $tableHistoricalBody.appendChild($tr);
 
-
     for (var x = 1; x <= queryData.length - 1; x++) {
       var name = '.' + queryData[x];
       var statClass = document.querySelectorAll(name);
@@ -266,9 +265,9 @@ function getTeams() {
   xhr.send();
 
 }
-
 getTeams();
 
+//in case connection fails, there will be a page so that the app fails gracefully
 function failed() {
   for (var i = 0; i <= dataView.length - 1; i++) {
     if (i !== 5) {
@@ -280,6 +279,7 @@ function failed() {
   }
 }
 
+//loading page while the XMLHttpRequest is being made
 function loading() {
   for (var i = 0; i <= dataView.length - 1; i++) {
     if (i !== 6) {
@@ -290,8 +290,7 @@ function loading() {
   }
 }
 
-//end of data
-
+//loads different pages depending on the click event that is triggered
 function viewSwap(index) {
   for(var i = 0; i<=dataView.length-1; i++) {
     if(i === index) {
@@ -411,5 +410,4 @@ function draftList() {
 
     $tableDraftListBody.appendChild($trAdd);
   }
-
 }
