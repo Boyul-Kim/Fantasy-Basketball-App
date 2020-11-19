@@ -22,5 +22,4 @@ Try the application live at https://boyul-kim.github.io/Fantasy-Basketball-App/
 * Make the design of the app more aesthetically pleasing
 
 # Preview
-![Homepage Preview](Homepage.gif)
-![Draft](Draft List.gif)
+![Preview](Draft-Rank.gif)
