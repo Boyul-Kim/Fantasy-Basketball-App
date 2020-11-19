@@ -150,21 +150,21 @@ function depthChart(team, letter) {
         position = x;
       }
     }
-
     var $topPlayerFormBody = document.querySelector('.topPlayerForm-body');
     for (var i = 0; i <= jsonParseDepth.FantasyBasketballNerd.Team.Position.length - 1; i++) {
-      var $tr = document.createElement('tr');
-      var $rank = document.createElement('td');
-      var $player = document.createElement('td');
+      if (position !== null) {
+        var $tr = document.createElement('tr');
+        var $rank = document.createElement('td');
+        var $player = document.createElement('td');
+        $rank.textContent = jsonParseDepth.FantasyBasketballNerd.Team.Position[position].Player[i].rank['#text'];
+        $player.textContent = jsonParseDepth.FantasyBasketballNerd.Team.Position[position].Player[i].name['#text'];
+        $player.classList.add('tableRankDataPlayer');
+        $tr.appendChild($rank);
+        $tr.appendChild($player);
+        $topPlayerFormBody.appendChild($tr);
+      }
 
-      $rank.textContent = jsonParseDepth.FantasyBasketballNerd.Team.Position[position].Player[i].rank['#text'];
-      $player.textContent = jsonParseDepth.FantasyBasketballNerd.Team.Position[position].Player[i].name['#text'];
-      $player.classList.add('tableRankDataPlayer');
-      $tr.appendChild($rank);
-      $tr.appendChild($player);
-      $topPlayerFormBody.appendChild($tr);
     }
-
     for (var i = 0; i <= $topPlayerFormBody.childNodes.length - 1; i++) {
       $topPlayerFormBody.childNodes[i].childNodes[1].addEventListener('click', function (e) {
         ballDontLie(e.target.textContent);
@@ -186,7 +186,6 @@ function ballDontLie(player) {
   xhr.open('GET', 'https://www.balldontlie.io/api/v1/players?search=' + player);
   xhr.responseType = 'json';
   xhr.addEventListener('loadstart', function () {
-    console.log('loading');
   });
   xhr.addEventListener('load', function () {
     var storage = [];
@@ -207,8 +206,6 @@ function ballDontLie(player) {
       } else {
         $playerName.textContent = 'Player Name';
       }
-    }else{
-      console.log('balldontlie failed');
     }
   });
   xhr.addEventListener('error', function () {
@@ -227,10 +224,13 @@ function ballDontLieSeasonAvg(season, id) {
     var $tr = document.createElement('tr');
     $tr.classList.add(queryData[0]);
     for (var i = 0; i <= queryData.length - 1; i++) {
-      var $td = document.createElement('td');
-      $td.textContent = xhr.response.data[0][queryData[i]];
-      $td.classList.add(queryData[i]);
-      $tr.appendChild($td);
+      if (xhr.response.data[0] !== undefined) {
+        var $td = document.createElement('td');
+        $td.textContent = xhr.response.data[0][queryData[i]];
+        $td.classList.add(queryData[i]);
+        $tr.appendChild($td);
+      }
+
     }
     $tableHistoricalBody.appendChild($tr);
 
@@ -286,7 +286,6 @@ function loading() {
       dataView[i].classList.add('hidden');
     } else {
       dataView[i].classList.remove('hidden');
-      $header.classList.remove('hidden');
     }
   }
 }
