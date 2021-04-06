@@ -63,9 +63,45 @@
   color:rgb(198, 56, 56);
 }
 
+.depthChartColumnFont {
+  font-size: larger;
+}
+
+.topPlayerForm-team {
+  height: 3rem;
+  width: 7rem;
+  border-radius: 1.5rem;
+  background-color: rgb(198, 56, 56);
+  color:white;
+}
+
+.topPlayerForm-position {
+  height: 3rem;
+  width: 7rem;
+  border-radius: 1.5rem;
+  background-color: rgb(198, 56, 56);
+  color:white;
+}
+
+.tableRankDataRank {
+  border: 1px rgb(198, 56, 56) solid;
+  background-color: rgb(198, 56, 56);
+  color: white;
+  height: 3rem;
+  width: 3rem;
+}
+
+.tableRankDataPlayer {
+  border: 1px rgb(198, 56, 56) solid;
+  background-color: rgb(198, 56, 56);
+  color: white;
+  height: 3rem;
+}
+
 .tableRankDataPlayer:hover {
-  color:rgb(198, 56, 56);
+  color:white;
   cursor: pointer;
+  font-size: larger;
 }
 
 .tableRankDataPlayer:active {
@@ -73,6 +109,14 @@
 }
 
 .buttonIconPointer {
+  cursor: pointer;
+}
+
+.remove-button {
+  margin-top: 0.5rem;
+}
+
+.remove-button:hover {
   cursor: pointer;
 }
 

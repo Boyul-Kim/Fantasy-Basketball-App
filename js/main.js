@@ -121,6 +121,7 @@ function ballProjectionsRankList() {
     var $rank = document.createElement('td');
     var $player = document.createElement('td');
     $player.classList.add('tableRankDataPlayer');
+    $rank.classList.add('tableRankDataRank');
     $rank.textContent = jsonParse.FantasyBasketballNerd.Player.indexOf(jsonParse.FantasyBasketballNerd.Player[i]) + 1;
     $tr.appendChild($rank);
     $player.textContent = jsonParse.FantasyBasketballNerd.Player[i].name["#text"];
@@ -160,6 +161,7 @@ function depthChart(team, letter) {
           $rank.textContent = jsonParseDepth.FantasyBasketballNerd.Team.Position[position].Player[i].rank['#text'];
           $player.textContent = jsonParseDepth.FantasyBasketballNerd.Team.Position[position].Player[i].name['#text'];
           $player.classList.add('tableRankDataPlayer');
+          $rank.classList.add('tableRankDataRank');
           $tr.appendChild($rank);
           $tr.appendChild($player);
           $topPlayerFormBody.appendChild($tr);
@@ -406,6 +408,7 @@ function draftList() {
   for(var i = 0; i<=data.entries.length-1; i++) {
     var $trAdd = document.createElement('tr');
     $trAdd.classList.add('trAdd');
+    $trAdd.classList.add('tableRankDataRank');
     var $trAddArray = document.querySelectorAll('.trAdd');
     var $tdAddName = document.createElement('td');
     $tdAddName.textContent = data.entries[i][0];
@@ -415,10 +418,13 @@ function draftList() {
     $tdAddPosition.textContent = data.entries[i][1];
     $trAdd.appendChild($tdAddPosition);
 
-    var removeButton = document.createElement('button')
+    var removeButton = document.createElement('div')
     removeButton.classList.add('removeArray');
+    removeButton.classList.add('far');
+    removeButton.classList.add('fa-trash-alt');
+    removeButton.classList.add('fa-2x');
+    removeButton.classList.add('remove-button')
     var removeButtonArray = document.querySelectorAll('.removeArray')
-    removeButton.textContent = 'Remove';
     $trAdd.appendChild(removeButton);
 
     removeButton.addEventListener('click', function(e) {
